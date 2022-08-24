@@ -39,6 +39,7 @@ public class Rocket : MonoBehaviour
         }
         else
         {
+            
             aim = GameObject.Find("Player").transform.position;
             transform.LookAt(aim);
             startPos = transform.position;
@@ -53,7 +54,13 @@ public class Rocket : MonoBehaviour
         {
             Debug.Log("collision");
             other.GetComponent<Enemy>().Health = 0;
+            Destroy(gameObject);
+        }
+        else if (!playerRocket && other.gameObject.CompareTag("Player"))
+        {
 
+            Player.Instance.Health -= 2;
+            Debug.Log(Player.Instance.Health);
             Destroy(gameObject);
         }
     }

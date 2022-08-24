@@ -71,6 +71,8 @@ public class Enemy : Helicopter
         if (health == 0)
         {
             GameManager.Instance.Explosion(transform.position, true);
+            Title.Instance.score += 1;
+            Title.Instance.highScore.text = "Score: " + Title.Instance.score;
             Destroy(gameObject);
         }
     }
@@ -93,7 +95,6 @@ public class Enemy : Helicopter
 
             health -= 1;
             Destroy(other);
-            Debug.Log(health);
         }
     }
     protected override void FixedUpdate()

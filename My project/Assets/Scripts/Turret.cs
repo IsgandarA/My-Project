@@ -84,6 +84,7 @@ public class Turret : MonoBehaviour
         points.Add(startPos);
         points.Add(endPos);
         lr.SetPositions(points.ToArray());
+        bullet.transform.LookAt(look);
     }
 
     IEnumerator WindUp()
@@ -98,7 +99,7 @@ public class Turret : MonoBehaviour
     IEnumerator Shoot()
     {
         cooldown = true;
-        Instantiate(bullet, bulletSpawn.transform.position, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y+90, transform.eulerAngles.z));
+        Instantiate(bullet, bulletSpawn.transform.position, Quaternion.Euler(bulletSpawn.transform.eulerAngles.x, bulletSpawn.transform.eulerAngles.y, bulletSpawn.transform.eulerAngles.z));
         muzzleFlash.Play();
         yield return new WaitForSeconds(.3f);
         cooldown = false;

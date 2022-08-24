@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Helicopter
 {
@@ -87,13 +88,22 @@ public class Player : Helicopter
         }
         if (health < 0.1)
         {
-            Destroy(gameObject);
-            
-            Debug.Log("Game over");
+            GameOver();
         }
         Bounds(bounds);
-
-
+    }
+    void GameOver()
+    {
+        SceneManager.LoadScene(0);
+        if (Title.Instance.score > Title.Instance.highScoreInt)
+        {
+            Title.Instance.highScoreInt = Title.Instance.score;
+            Title.Instance.playerScoreHist[Title.Instance.playerN] = Title.Instance.highScoreInt;
+            Title.Instance.SaveScore();
+        }
+        Destroy(gameObject);
+        SceneManager.LoadScene(0);
+        Title.Instance.Restart();
 
     }
     private void Update()
@@ -179,9 +189,8 @@ public class Player : Helicopter
         playerRB.MoveRotation(Quaternion.Euler(0, 0, 0));
         dodgeCooldown = false;
         Rotator(true);
-
-
     }
+
     IEnumerator RocketRespawn(GameObject slot)
     {
         yield return new WaitForSeconds(2);

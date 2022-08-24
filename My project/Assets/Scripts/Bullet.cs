@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        float distCovered = (Time.time - startTime) *120;
+        float distCovered = (Time.time - startTime) *130;
         float fractionOfJourney = distCovered / journeyLength;
         transform.position = Vector3.Lerp(startPos, aim, fractionOfJourney);
         if (transform.position == aim)
