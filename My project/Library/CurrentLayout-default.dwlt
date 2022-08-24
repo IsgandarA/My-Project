@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: Scene
   m_RootView: {fileID: 8}
-  m_MinSize: {x: 875, y: 542}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 1
-  controlID: 115
+  controlID: 59
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 116
+  controlID: 60
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -202,7 +202,7 @@ MonoBehaviour:
     y: 0
     width: 1536
     height: 780.8
-  m_MinSize: {x: 875, y: 542}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 41
+  controlID: 61
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 42
+  controlID: 62
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -352,8 +352,8 @@ MonoBehaviour:
     vZoomLockedByDefault: 0
     m_HBaseRangeMin: -437.4
     m_HBaseRangeMax: 437.4
-    m_VBaseRangeMin: -208.6
-    m_VBaseRangeMax: 208.6
+    m_VBaseRangeMin: -219.1
+    m_VBaseRangeMax: 219.1
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -370,11 +370,11 @@ MonoBehaviour:
     m_DrawArea:
       serializedVersion: 2
       x: 0
-      y: 21
+      y: 0
       width: 874.8
-      height: 417.2
+      height: 438.2
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 437.4, y: 208.6}
+    m_Translation: {x: 437.4, y: 219.1}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -382,9 +382,9 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -437.4
-      y: -208.6
+      y: -219.1
       width: 874.8
-      height: 417.2
+      height: 438.2
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1093.5, y: 547.75}
@@ -604,21 +604,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\Iskender\Desktop\Unity\Create with Code\My project
+  m_LastProjectPath: C:\Users\Iskender\Desktop\Unity\Create with Code\My-Project\My
+    project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 349.40002}
-    m_SelectedIDs: e0420000
-    m_LastClickedID: 17120
+    scrollPos: {x: 0, y: 79}
+    m_SelectedIDs: 9c420000
+    m_LastClickedID: 17052
     m_ExpandedIDs: 000000009c4200009e420000a0420000a2420000a4420000a6420000a8420000aa42000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -674,7 +675,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c62300002e400000cc3d00002840000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -768,9 +769,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 02400000
-      m_LastClickedID: 16386
-      m_ExpandedIDs: ecefffff24f0ffff62f0ffff6efbffff
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 6afbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -881,7 +882,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.11841979, y: 0.71937567, z: -0.1267422, w: 0.6729108}
     speed: 2
-    m_Value: {x: 0.11839629, y: 0.7192329, z: -0.12671705, w: 0.6727773}
+    m_Value: {x: 0.11841979, y: 0.7193757, z: -0.1267422, w: 0.67291087}
   m_Size:
     m_Target: 4.185276
     speed: 2
