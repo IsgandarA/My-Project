@@ -5,25 +5,26 @@ using UnityEngine.UI;
 public class Turret : MonoBehaviour
 {
     [SerializeField] float speed;
-    public Player player;
-    private bool windUp;
-    private bool windUp2stage;
-    public AudioClip windUpSound;
-    public AudioClip shootSound;
-    public AudioSource audio;
     [SerializeField] GameObject turret;
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject barrels;
     [SerializeField] GameObject bulletSpawn;
     [SerializeField] Camera cam;
-    public Vector3 look;
-    private bool cooldown;
-    public Vector3 mousePos;
-    private LineRenderer lr;
     [SerializeField] ParticleSystem muzzleFlash;
-    //private Vector3 mousePos;
-    //private Camera cam;
-    // Start is called before the first frame update
+
+    public AudioClip windUpSound;
+    public AudioClip shootSound;
+
+    public AudioSource audio;
+    public Vector3 aim;
+    public Vector3 look;
+    public Vector3 mousePos;
+    public GameObject rocketLock;
+    private LineRenderer lr;
+    private bool windUp;
+    private bool windUp2stage;
+    private bool cooldown;
+    public bool lockedOn;
     void Start()
     {
         cam = Camera.main;
@@ -67,15 +68,25 @@ public class Turret : MonoBehaviour
         }
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100))
+        if (Physics.Raycast(ray, out hit, 200)&&hit.transform.gameObject.CompareTag("Enemy"))
         {
+            lockedOn = true;
+            rocketLock = hit.transform.gameObject;
             look = hit.transform.position;
+            aim = look;
         }
+        //RaycastHit hit;
+        //if (Physics.Raycast(bulletSpawn.transform.position, aim, out hit, 100))
+        //{
+        //    look = hit.transform.position;
+        //}
         else
         {
-            look = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 100));
+            lockedOn = false;
+            aim = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 130));
+            look = aim;
         }
-        Vector3 lookTurret = Vector3.RotateTowards(transform.position, look, 180, 180);
+        Vector3 lookTurret = Vector3.RotateTowards(transform.position, look, 4, 360);
         transform.LookAt(lookTurret);
         lr.positionCount = 2;
         List<Vector3> points = new List<Vector3>();

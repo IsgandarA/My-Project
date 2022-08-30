@@ -11,6 +11,9 @@ public class Player : Helicopter
     [SerializeField] GameObject[] rocketsSlots;
     [SerializeField] GameObject[] rockets;
     [SerializeField] GameObject rocket;
+    [SerializeField] Turret turret;
+    public AudioSource audio;
+    public AudioClip lockOn;
     private float horInput;
     private float verInput;
     private Rigidbody playerRB;
@@ -20,8 +23,11 @@ public class Player : Helicopter
     public Vector3 vel;
     public static Player Instance;
     Vector3 lastPos;
+    float bounds = 200;
     private void Awake()
     {
+        audio = GetComponent<AudioSource>();
+        turret = GameObject.Find("Turret").GetComponent<Turret>();
         x = 0;
         health = 10;
         if (Instance != null)
@@ -38,18 +44,17 @@ public class Player : Helicopter
     // Start is called before the first frame update
     protected override void Start()
     {
-        vertical = 200;
-        horizontal = 200;
-        bounds[0] = vertical;
-        bounds[1] = horizontal;
-        boundsBounce = 20;
-        speed = 60;
+        speed = 750;
         playerRB = GetComponent<Rigidbody>();
         Rotator(true);
         playerRB.maxAngularVelocity = 100000;
     }
-    protected override void Attack(int x)
+    void Attack(int x)
     {
+        if (turret.lockedOn)
+        {
+            audio.PlayOneShot(lockOn);
+        }
         GameObject aRocket = rockets[x];
         {
             if (aRocket != null)
@@ -72,7 +77,7 @@ public class Player : Helicopter
 
     }
     // Update is called once per frame
-    protected override void FixedUpdate()
+     void FixedUpdate()
     {
 
         vel = playerRB.velocity;
@@ -91,6 +96,28 @@ public class Player : Helicopter
             GameOver();
         }
         Bounds(bounds);
+        if (!Input.anyKey && !dodgeCooldown)
+        {
+            playerRB.velocity = playerRB.velocity * 0.99f;
+        }
+    }
+    void Bounds(float b)
+    {
+        if (transform.position.x > b || transform.position.x < -b)
+        {
+            transform.position = new Vector3(transform.position.x*-1, transform.position.y, transform.position.z);
+            playerRB.AddForce(new Vector3(transform.position.x*-1, 0, 0), ForceMode.Impulse);
+        }
+        if (transform.position.y > 250)
+        {
+
+        }
+
+        //if (transform.position.y > b* 2f || transform.position.y < 0)
+        //{
+        //    transform.position = new Vector3(transform.position.x, b*2f - (transform.position.y), transform.position.z);
+        //    playerRB.AddForce(new Vector3(0, b* 2f - transform.position.y, 0), ForceMode.Impulse);
+        //}
     }
     void GameOver()
     {
@@ -112,32 +139,32 @@ public class Player : Helicopter
         {
             Attack(x);
         }
-        if (!Input.anyKey && !dodgeCooldown)
-        {
-            playerRB.velocity = playerRB.velocity*0.995f;
-        }
 
+        
     }
     protected override void Move()
     {
-            if (Input.GetKey(KeyCode.D))
+        playerRB.velocity = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.D)&&playerRB.velocity.x <200)
             {
-                playerRB.AddForce(new Vector3(speed, 0, 0), ForceMode.Acceleration);
+                playerRB.AddForce(new Vector3(speed, 0, 0), ForceMode.Impulse);
 
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) && playerRB.velocity.x > -200)
             {
-                playerRB.AddForce(new Vector3(-speed, 0, 0), ForceMode.Acceleration);
+            playerRB.AddForce(new Vector3(-speed, 0, 0), ForceMode.Impulse);
 
             }
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W) && playerRB.velocity.y < 200 && transform.position.y <500)
             {
-                playerRB.AddForce(new Vector3(0, speed, 0), ForceMode.Acceleration);
+
+                playerRB.AddForce(new Vector3(0, speed*5, 0), ForceMode.Impulse);
 
             }
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.S) && playerRB.velocity.x > -200 && transform.position.y > 0)
             {
-                playerRB.AddForce(new Vector3(0, -speed, 0), ForceMode.Acceleration);
+                playerRB.AddForce(new Vector3(0, -speed*5, 0), ForceMode.Impulse);
          
             }
     }
@@ -145,12 +172,7 @@ public class Player : Helicopter
     public void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            health--;
-            Destroy(collision.gameObject);
-            playerRB.AddForce(new Vector3(0, -1, 0)*2000f, ForceMode.Impulse);
-        }
+
     }
     void Rotator(bool x)
     {if (x)
@@ -169,23 +191,23 @@ public class Player : Helicopter
         playerRB.velocity = Vector3.zero;
         if (horInput > 0)
         {
-            playerRB.AddForce(new Vector3(1, 0, 0)* 700f, ForceMode.Impulse);
-            playerRB.AddRelativeTorque(new Vector3(0, 0, -180), ForceMode.Impulse);
+            playerRB.AddForce(new Vector3(1, 0, 0)* 1100f, ForceMode.Impulse);
+            playerRB.AddRelativeTorque(new Vector3(0, 0, 9f), ForceMode.Impulse);
             
         }
         else if (horInput < 0)
         {
-            playerRB.AddForce(Vector3.left * 700f, ForceMode.Impulse);
-            playerRB.AddRelativeTorque(new Vector3(0, 0,180), ForceMode.Impulse);
+            playerRB.AddForce(Vector3.left * 1100f, ForceMode.Impulse);
+            playerRB.AddRelativeTorque(new Vector3(0, 0,9f), ForceMode.Impulse);
         }
         else if (horInput == 0)
         {
-            playerRB.AddRelativeTorque(new Vector3(0, 0, 180)*negPos[Random.Range(0, 2)], ForceMode.Impulse);
+            playerRB.AddRelativeTorque(new Vector3(0, 0, 9f)*negPos[Random.Range(0, 2)], ForceMode.Impulse);
         }
 
         yield return new WaitForSeconds(.7f);
         playerRB.angularVelocity = Vector3.zero;
-        playerRB.velocity = playerRB.velocity*.9f;
+        playerRB.velocity = playerRB.velocity*.85f;
         playerRB.MoveRotation(Quaternion.Euler(0, 0, 0));
         dodgeCooldown = false;
         Rotator(true);

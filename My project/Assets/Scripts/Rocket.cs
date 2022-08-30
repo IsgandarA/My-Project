@@ -2,51 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rocket : MonoBehaviour
+public class Rocket : Missile
 {
     private Turret turret;
     [SerializeField] AudioClip launch;
     [SerializeField] ParticleSystem fire;
-
+    private GameObject rocketLock;
     private AudioSource audio;
-    private Vector3 aim;
-    private Vector3 startPos;
-    private float startTime;
-    private float journeyLength;
+    //private Vector3 aim;
+    //private Vector3 startPos;
+    //private float startTime;
+    //private float journeyLength;
     private bool playerRocket;
-    // Start is called before the first frame update
-    private void Update()
-    {
-        if (transform.position == aim)
-        {
-            StartCoroutine("SelfDestruct");
-        }
-    }
+
+    //protected override void Update()
+    //{
+    //    if (transform.position == aim)
+    //    {
+    //        StartCoroutine("SelfDestruct");
+    //    }
+    //}
     void OnEnable()
     {
+        speedVar = 120;
         audio = GetComponent<AudioSource>();
         audio.volume = 0.2f;
         audio.PlayOneShot(launch, 0.2f);
+        fire.gameObject.SetActive(true);
+        startPos = transform.position;
+        startTime = Time.time;
         if (transform.root.CompareTag("Player"))
         {
             playerRocket = true;
             turret = GameObject.Find("Turret").GetComponent<Turret>();
-            aim = turret.look;
+            if (turret.lockedOn == true)
+            {
+                rocketLock = turret.rocketLock;
+            }
+            else
+            {
+                rocketLock = null;
+            }
+            aim = turret.aim;
             transform.rotation = turret.transform.rotation;
-            startPos = transform.position;
-            startTime = Time.time;
-            journeyLength = Vector3.Distance(startPos, aim);
         }
         else
         {
             
             aim = GameObject.Find("Player").transform.position;
             transform.LookAt(aim);
-            startPos = transform.position;
-            startTime = Time.time;
-            journeyLength = Vector3.Distance(startPos, aim);
         }
-        
+        journeyLength = Vector3.Distance(startPos, aim);
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -65,18 +72,35 @@ public class Rocket : MonoBehaviour
         }
     }
     // Update is called once per frame
-    void FixedUpdate()
-    {
-        fire.gameObject.SetActive(true);
-        float distCovered = (Time.time - startTime) * 60;
-        float fractionOfJourney = distCovered / journeyLength;
-        transform.position = Vector3.Lerp(startPos, aim, fractionOfJourney);
-        if (transform.position.z > 200 | transform.position.y > 200 | transform.position.z < -200 | transform.position.y < -200)
+    protected override void FixedUpdate()
+    { 
+        if (playerRocket&&rocketLock!=null)
         {
-            Destroy(gameObject);
+            if (transform.position.z < rocketLock.transform.position.z)
+            {
+                aim = rocketLock.transform.position;
+                transform.LookAt(aim);
+            }
+            else
+            {
+                aim = new Vector3(rocketLock.transform.position.x, rocketLock.transform.position.y, 1000);
+            }
         }
+        else if (!playerRocket)
+        {
+            if (transform.position.z - Player.Instance.transform.position.z >60)
+            {
+                aim = Player.Instance.transform.position;
+                transform.LookAt(aim);
+            }
+            else
+            {
+                
+            }
+        }
+        base.FixedUpdate();
     }
-    IEnumerator SelfDestruct()
+    protected override IEnumerator SelfDestruct()
     {
         yield return new WaitForSeconds(.05f);
         GameManager.Instance.Explosion(transform.position, false);

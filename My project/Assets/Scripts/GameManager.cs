@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip explSound;
     [SerializeField] AudioClip muflExpl;
     [SerializeField] GameObject explosion;
-    
+    [SerializeField] List<GameObject> buildings = new List<GameObject>(); 
     private AudioSource audio;
     public static GameManager Instance;
     // Start is called before the first frame update

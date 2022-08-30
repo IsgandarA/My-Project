@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Enemy : Helicopter
 {
@@ -11,17 +12,20 @@ public class Enemy : Helicopter
     [SerializeField] GameObject[] rocketsSlots;
     [SerializeField] GameObject[] rockets;
     [SerializeField] GameObject rocket;
-    private AudioSource audio;
     [SerializeField] GameObject sparks;
+    private AudioSource audio;
     private int bulletHitSoundCont=1;
     private int x;
+    private float y = 0;
     private bool cooldown;
+    private bool peak;
+    private int speedmod = 120;
+    private float xOffset;
+    private float yOffset;
+
+
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-    protected override void Attack(int x)
+    void Attack(int x)
     {
         GameObject aRocket = rockets[x];
         {
@@ -55,11 +59,9 @@ public class Enemy : Helicopter
 
     {
         x = 0;
+        xOffset = transform.position.x - 30;
+        yOffset = transform.position.y;
         StartCoroutine("Attacks");
-        vertical = 200;
-        horizontal = 200;
-        bounds[0] = vertical;
-        bounds[1] = horizontal;
         audio = GetComponent<AudioSource>();
         health = 7;
         startPos = transform.position;
@@ -68,11 +70,84 @@ public class Enemy : Helicopter
     // Update is called once per frame
     void Update()
     {
+
         if (health == 0)
         {
             GameManager.Instance.Explosion(transform.position, true);
-            Title.Instance.score += 1;
-            Title.Instance.highScore.text = "Score: " + Title.Instance.score;
+            try
+            {
+                Title.Instance.score += 1;
+                Title.Instance.highScore.text = "Score: " + Title.Instance.score;
+            }
+            catch (NullReferenceException e)
+            {
+
+            }
+            Destroy(gameObject);
+        }
+        try
+        {
+            if (transform.position.z - Player.Instance.transform.position.z > 250)
+            {
+                
+                float distCovered = (Time.time - startTime) * 70;
+                float fractionOfJourney = distCovered / Vector3.Distance(startPos, new Vector3(transform.position.x, transform.position.y, Player.Instance.transform.position.z + 250));
+                transform.position = Vector3.Lerp(startPos, new Vector3(transform.position.x, transform.position.y, Player.Instance.transform.position.z + 250), fractionOfJourney);
+            }
+            if (transform.position.z - Player.Instance.transform.position.z == 250)
+            {
+                //if (transform.position.y >= yOffset + 29.5f)
+                //{
+                //    peak = true;
+                //}
+                //if (peak)
+                //{
+                //    if (transform.position.y > yOffset + 29.5f && transform.position.y < yOffset + 30)
+                //    {
+                //        transform.position = new Vector3(xOffset, transform.position.y - Time.deltaTime * speedmod, Player.Instance.transform.position.z + 130);
+                //    }
+                //    else
+                //    {
+                //        transform.position = new Vector3(xOffset - Mathf.Sqrt(900 - Mathf.Pow(transform.position.y - yOffset, 2)), transform.position.y - Time.deltaTime * speedmod, Player.Instance.transform.position.z + 130);
+                //    }
+                //}
+                //if (transform.position.y <= yOffset-29.5f)
+                //{
+                //    peak = false;
+                //}
+                //if (!peak)
+                //{
+                //    if (transform.position.y < yOffset - 29.5f && transform.position.y > yOffset - 30)
+                //    {
+                //        transform.position = new Vector3(xOffset, transform.position.y + Time.deltaTime * speedmod, Player.Instance.transform.position.z + 130);
+                //    }
+                //    else
+                //    {
+                //        transform.position = new Vector3(xOffset + Mathf.Sqrt(900 - Mathf.Pow(transform.position.y - yOffset, 2)), transform.position.y + Time.deltaTime * speedmod, Player.Instance.transform.position.z + 130);
+
+                //    }
+                //}
+                if (transform.position.x < 200 &&!peak)
+                {
+                    transform.position = new Vector3(transform.position.x + Time.deltaTime * speedmod, transform.position.y, transform.position.z);
+                }
+                if (transform.position.x >= 200)
+                {
+                    peak = true;
+                }
+                if (transform.position.x > -200 && peak)
+                {
+                    transform.position = new Vector3(transform.position.x - Time.deltaTime * speedmod, transform.position.y, transform.position.z);
+                }
+                if (transform.position.x <= -200)
+                {
+                    peak = false;
+                }
+
+            }
+        }
+        catch (MissingReferenceException e)
+        {
             Destroy(gameObject);
         }
     }
@@ -97,21 +172,12 @@ public class Enemy : Helicopter
             Destroy(other);
         }
     }
-    protected override void FixedUpdate()
-    {
-        if (transform.position.z - Player.Instance.transform.position.z > 15)
-        {
-            float distCovered = (Time.time - startTime)*5;
-            float fractionOfJourney = distCovered / Vector3.Distance(startPos, new Vector3(transform.position.x, transform.position.y, Player.Instance.transform.position.z + 30));
-            transform.position = Vector3.Lerp(startPos, new Vector3(transform.position.x, transform.position.y, Player.Instance.transform.position.z + 30), fractionOfJourney);
-        }
 
-    }
     IEnumerator Attacks()
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             if (!cooldown)
             {
                 Attack(x);

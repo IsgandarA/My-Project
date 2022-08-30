@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : Missile
 {
 
     public Turret turret;
-    private Vector3 aim;
-    private Vector3 startPos;
-    private float startTime;
-    private float journeyLength;
-    // Start is called before the first frame update
+
+
     void Awake()
     {
         turret = GameObject.Find("Turret").GetComponent<Turret>();
@@ -18,25 +15,30 @@ public class Bullet : MonoBehaviour
         startPos = transform.position;
         startTime = Time.time;
         journeyLength = Vector3.Distance(startPos,aim);
+        speedVar = 300;
+        
     }
+    //protected override void Update()
+    //{
+    //    if (transform.position == aim)
+    //    {
+    //        StartCoroutine("SelfDestruct");
+    //    }
+    //}
+    //protected override void FixedUpdate()
+    //{
+    //    float distCovered = (Time.time - startTime) * 130;
+    //    float fractionOfJourney = distCovered / journeyLength;
+    //    transform.position = Vector3.Lerp(startPos, aim, fractionOfJourney);
 
-    void FixedUpdate()
-    {
-        float distCovered = (Time.time - startTime) *130;
-        float fractionOfJourney = distCovered / journeyLength;
-        transform.position = Vector3.Lerp(startPos, aim, fractionOfJourney);
-        if (transform.position == aim)
-        {
-            StartCoroutine("SelfDestruct");
-        }
-        if (transform.position.z > 250 | transform.position.y > 250 | transform.position.z < -250 | transform.position.y < -250)
-        {
-            Destroy(gameObject);
-        }
-    }
-    IEnumerator SelfDestruct()
-    {
-        yield return new WaitForSeconds(.5f);
-        Destroy(gameObject);
-    }
+    //    if (transform.position.z > bounds | transform.position.y > bounds | transform.position.z < -bounds | transform.position.y < -bounds)
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
+    //protected override IEnumerator SelfDestruct()
+    //{
+    //    yield return new WaitForSeconds(.5f);
+    //    Destroy(gameObject);
+    //}
 }
