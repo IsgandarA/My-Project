@@ -15,8 +15,13 @@ public class Title : MonoBehaviour
     public int score;
     public Button start;
     public TextMeshProUGUI playerName;
+    public TextMeshProUGUI victoryText;
+
     public TextMeshProUGUI highScore;
     public TextMeshProUGUI user;
+    public Slider playerHealth;
+    public Slider bossHealth;
+
     public string playerN;
     private bool nameInped;
     private void Awake()
@@ -95,7 +100,8 @@ public class Title : MonoBehaviour
 
         SceneManager.LoadScene(1);
         start.gameObject.SetActive(false);
-        highScore.text = "Score: "; 
+        highScore.text = "Score: ";
+        playerHealth.gameObject.SetActive(true);
     }
     [Serializable]
     class SaveData
@@ -124,5 +130,12 @@ public class Title : MonoBehaviour
             }
 
         }
+    }
+    public IEnumerator Victory()
+    {
+        victoryText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        victoryText.gameObject.SetActive(false);
+        Player.Instance.GameOver();
     }
 }

@@ -25,6 +25,7 @@ public class Turret : MonoBehaviour
     private bool windUp2stage;
     private bool cooldown;
     public bool lockedOn;
+
     void Start()
     {
         cam = Camera.main;
@@ -46,7 +47,7 @@ public class Turret : MonoBehaviour
             StartCoroutine("WindUp");
             
         }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Mouse0)||Player.Instance.dodgeCooldown)
         {
             windUp = false;
             audio.Stop();
@@ -60,7 +61,10 @@ public class Turret : MonoBehaviour
             {
                 StartCoroutine("Shoot");
             }
-            
+            if (Player.Instance.dodgeCooldown)
+            {
+                StopCoroutine("Shoot");
+            }
         }
         if (windUp2stage)
         {
@@ -68,12 +72,21 @@ public class Turret : MonoBehaviour
         }
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 200)&&hit.transform.gameObject.CompareTag("Enemy"))
+        if (Physics.Raycast(ray, out hit, 1000)&&hit.transform.gameObject.CompareTag("Enemy"))
         {
             lockedOn = true;
             rocketLock = hit.transform.gameObject;
+        
             look = hit.transform.position;
             aim = look;
+            Debug.Log(hit);
+        }
+        else if (Physics.Raycast(ray, out hit, 1000) && hit.transform.gameObject.CompareTag("EnemyRocket"))
+        {
+            Debug.Log("rocektLock");
+            look = hit.transform.position;
+            aim = look;
+            Debug.Log(hit);
         }
         //RaycastHit hit;
         //if (Physics.Raycast(bulletSpawn.transform.position, aim, out hit, 100))
@@ -83,7 +96,7 @@ public class Turret : MonoBehaviour
         else
         {
             lockedOn = false;
-            aim = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 130));
+            aim = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 400));
             look = aim;
         }
         Vector3 lookTurret = Vector3.RotateTowards(transform.position, look, 4, 360);
@@ -112,7 +125,7 @@ public class Turret : MonoBehaviour
         cooldown = true;
         Instantiate(bullet, bulletSpawn.transform.position, Quaternion.Euler(bulletSpawn.transform.eulerAngles.x, bulletSpawn.transform.eulerAngles.y, bulletSpawn.transform.eulerAngles.z));
         muzzleFlash.Play();
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.1f);
         cooldown = false;
 
     }

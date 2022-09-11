@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip explSound;
     [SerializeField] AudioClip muflExpl;
     [SerializeField] GameObject explosion;
+    [SerializeField] GameObject smallExplosion;
     [SerializeField] List<GameObject> buildings = new List<GameObject>(); 
     private AudioSource audio;
     public static GameManager Instance;
@@ -47,9 +48,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Instantiate(smallExplosion, pos, smallExplosion.transform.rotation);
             audio.PlayOneShot(muflExpl, 0.3f);
         }
         explosion.transform.position = pos;
 
     }
+
 }

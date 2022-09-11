@@ -31,7 +31,7 @@ public abstract class Missile : MonoBehaviour
     }
     virtual protected IEnumerator SelfDestruct()
     {
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSeconds(.01f);
         Destroy(gameObject);
     }
 }

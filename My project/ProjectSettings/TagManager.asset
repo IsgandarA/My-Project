@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Bullet
   - EnemyRocket
+  - Building
+  - PlayerRocket
   layers:
   - Default
   - TransparentFX

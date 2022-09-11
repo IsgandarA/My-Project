@@ -15,10 +15,13 @@ public class Buiilding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - Time.deltaTime * 400);
-        if (transform.position.z < -150)
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - Time.deltaTime * 600 * Spawner.Instance.level);
+        
+        if (transform.position.z < -100)
         {
             Destroy(gameObject);
         }
     }
+
 }

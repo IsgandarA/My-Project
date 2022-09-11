@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Helicopter : MonoBehaviour
 {
 
-    protected float vertical { get; set; }
+
     protected int health;
     public int Health
     {

@@ -15,7 +15,7 @@ public class Bullet : Missile
         startPos = transform.position;
         startTime = Time.time;
         journeyLength = Vector3.Distance(startPos,aim);
-        speedVar = 300;
+        speedVar = 1500;
         
     }
     //protected override void Update()
