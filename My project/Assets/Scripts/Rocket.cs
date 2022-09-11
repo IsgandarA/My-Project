@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rocket : Missile
+public class Rocket : Missile//POLYMORPHISM
+//Missile is a class that describes the movement of a projectile and instructs it to self destruct as appropriate.
+//Rocket is a complicated subtype with significant modifications.
 {
     private Turret turret;
     [SerializeField] AudioClip launch;
     [SerializeField] ParticleSystem fire;
     private GameObject rocketLock;
     private AudioSource audio;
-    //private Vector3 aim;
+    //private Vector3 aim;            You can see some code that was made redundant through polymorphism.
     //private Vector3 startPos;
     //private float startTime;
     //private float journeyLength;
@@ -79,7 +81,7 @@ public class Rocket : Missile
             Debug.Log(Player.Instance.Health);
             Destroy(gameObject);
         }
-        else if (playerRocket && other.gameObject.CompareTag("Enemy")|| playerRocket && other.gameObject.CompareTag("EnemyRocket"))
+        else if (playerRocket && other.gameObject.transform.root.gameObject.CompareTag("Enemy"))
         {
             
             GameManager.Instance.Explosion(other.transform.position, true);
@@ -103,7 +105,7 @@ public class Rocket : Missile
     { 
         if (playerRocket)
         {
-            if (rocketLock != null && Spawner.Instance.level<4)
+            if (rocketLock != null)
             {
                 if (transform.position.z < rocketLock.transform.position.z)
                 {
@@ -115,19 +117,7 @@ public class Rocket : Missile
                     aim = new Vector3(rocketLock.transform.position.x, rocketLock.transform.position.y, 1000);
                 }
             }
-            if (rocketLock != null && Spawner.Instance.level >= 4)
-            {
-                if (transform.position.z < rocketLock.transform.position.z-50)
-                {
-                    aim = rocketLock.transform.position;
-                    transform.LookAt(aim);
-                }
-                else
-                {
-                    aim = new Vector3(rocketLock.transform.position.x, rocketLock.transform.position.y, 1000);
-                }
 
-            }
             base.FixedUpdate();
         }
        

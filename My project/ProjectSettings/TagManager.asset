@@ -10,6 +10,7 @@ TagManager:
   - EnemyRocket
   - Building
   - PlayerRocket
+  - Boss
   layers:
   - Default
   - TransparentFX

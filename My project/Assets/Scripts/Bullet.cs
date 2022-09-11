@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : Missile
+public class Bullet : Missile //POLYMORPHISM
+    //Missile is a class that describes the movement of a projectile and instructs it to self destruct as appropriate. Bullet is a simple modification.
 {
 
     public Turret turret;
@@ -15,7 +16,7 @@ public class Bullet : Missile
         startPos = transform.position;
         startTime = Time.time;
         journeyLength = Vector3.Distance(startPos,aim);
-        speedVar = 1500;
+        speedVar = 2500;
         
     }
     //protected override void Update()

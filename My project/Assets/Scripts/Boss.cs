@@ -17,7 +17,13 @@ public class Boss : Enemy
         cooldown = false;
         Title.Instance.bossHealth.gameObject.SetActive(true);
         audio = GetComponent<AudioSource>();
-        base.Awake();
+        xMin = transform.position.x;
+        xOffset = transform.position.x;
+        yOffset = transform.position.y;
+        startPos = transform.position;
+        startTime = Time.time;
+        speedmod = 60;
+
     }
 
         // Update is called once per frame
@@ -26,6 +32,7 @@ public class Boss : Enemy
         Title.Instance.bossHealth.value = health;
         if (health == 0)
         {
+            Title.Instance.bossHealth.gameObject.SetActive(false);
             Title.Instance.StartCoroutine("Victory");
             Destroy(gameObject);
         }

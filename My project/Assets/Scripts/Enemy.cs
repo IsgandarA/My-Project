@@ -36,7 +36,9 @@ public class Enemy : Helicopter
 
 
 
-    protected IEnumerator Attack()
+    protected IEnumerator Attack() //ABSTRACTION
+                                   //There are obviously plenty of functions in the code of the project, but as an example, this coroutine shoots and respawns
+                                   //the enemy rockets from all available slots (2 for reg enemies, 4 for the boss).
     {
         GameObject rocket = rockets[x];
         yield return new WaitForSeconds(2);

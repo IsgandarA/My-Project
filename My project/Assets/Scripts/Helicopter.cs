@@ -7,7 +7,9 @@ public abstract class Helicopter : MonoBehaviour
 
 
     protected int health;
-    public int Health
+    public int Health //ENCAPSULATION
+        //Helicopted is the base class of the player, normal enemies and the boss. The player is a static singleton whose health can be edited by other scripts.
+        //Using getters and setters the variable is safeguarded against potential misuse.
     {
         get
         {

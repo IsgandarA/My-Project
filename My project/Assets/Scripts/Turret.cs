@@ -72,7 +72,7 @@ public class Turret : MonoBehaviour
         }
         RaycastHit hit;
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 1000)&&hit.transform.gameObject.CompareTag("Enemy"))
+        if (Physics.Raycast(ray, out hit, 1000)&&hit.transform.gameObject.CompareTag("Enemy")|| Physics.Raycast(ray, out hit, 1000) && hit.transform.gameObject.CompareTag("Boss"))
         {
             lockedOn = true;
             rocketLock = hit.transform.gameObject;

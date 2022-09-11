@@ -42,17 +42,12 @@ public class Spawner : MonoBehaviour
     {
         
         if (level <= 4)
-        {
+        
         for (int i = 0; i < waveNo; i++)
         {
             Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector3(Random.Range(-100, 100), Random.Range(150, 350), 500), Quaternion.Euler(0,-180, 0));
-        }
-        }
-        else
-        {
-            Instantiate(boss, new Vector3(0, 250, 300), Quaternion.Euler(0, -180, 0));
-        }
-        yield return new WaitUntil(()=> GameObject.FindGameObjectsWithTag("Enemy").Length == 0);
+        } 
+        yield return new WaitUntil(()=> GameObject.FindGameObjectsWithTag("Enemy").Length == 0&& GameObject.FindGameObjectsWithTag("Boss").Length == 0);
         yield return new WaitForSeconds(2);
         for (int i = 0; i < waveNo; i++)
         {
@@ -78,6 +73,8 @@ public class Spawner : MonoBehaviour
             yield return new WaitForSeconds(1f);
 
         }
+        
+        
         yield return new WaitForSeconds(2);
         waveNo++;
         //if (level <= 4 && waveNo % 5 == 0)
@@ -87,7 +84,14 @@ public class Spawner : MonoBehaviour
         //    Player.Instance.Health = 30;
         //}
         level = waveNo;
+        if (level < 4)
+        {
         StartCoroutine(Spawn());
+        }
+        else
+        {
+            Instantiate(boss, new Vector3(0, 250, 300), Quaternion.Euler(0, -180, 0));
+        }
     }
     IEnumerator Builder()
     {

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Missile : MonoBehaviour
+public abstract class Missile : MonoBehaviour //INHERITANCE
+    //Missile is a base class for rockets and bullets. It describes their movement and self destrcut mechanism if they dont hit a collider.
 {
     protected Vector3 aim;
     protected Vector3 startPos;
