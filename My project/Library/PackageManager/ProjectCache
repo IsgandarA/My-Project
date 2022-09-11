@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637978897930818380
-    m_Hash: 523346432
+      ticks: 637984555046816550
+    m_Hash: 3950321317
   m_LockFileStatus:
     m_FilePath: C:/Users/Iskender/Desktop/Unity/Create with Code/My-Project/My project/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637978897930908405
-    m_Hash: 2329551001
+      ticks: 637984555046816550
+    m_Hash: 1750297321
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
